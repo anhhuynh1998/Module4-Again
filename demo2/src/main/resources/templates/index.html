@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Home</title>
+    <th:block th:insert="layout/head :: meta"/>
+    <th:block th:insert="layout/head :: app-css"/>
+</head>
+<body>
+<!-- Begin page -->
+<div id="wrapper">
+
+
+    <!-- Topbar Start -->
+    <th:block th:insert="layout/navbar-custom">
+
+    </th:block>
+    <!-- end Topbar --> <!-- ========== Left Sidebar Start ========== -->
+    <th:block th:insert="layout/left-side-menu">
+
+    </th:block>
+    <!-- Left Sidebar End -->
+
+    <!-- ============================================================== -->
+    <!-- Start Page Content here -->
+    <!-- ============================================================== -->
+
+    <div class="content-page">
+
+        <!-- end content -->
+
+
+
+        <!-- Footer Start -->
+        <th:block th:insert="layout/footer">
+
+        </th:block>
+        <!-- end Footer -->
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- End Page content -->
+    <!-- ============================================================== -->
+
+</div>
+<!-- END wrapper -->
+
+
+<th:block th:insert="layout/script :: vendor">
+
+</th:block>
+<!-- D3 chart (required) in ricksaw charts (v3.5.17)-->
+<script src="\assets\libs\morris-js\morris.min.js"></script>
+<script src="\assets\libs\raphael\raphael.min.js"></script>
+
+<script src="\assets\js\pages\dashboard.init.js"></script>
+
+<!-- App js -->
+<th:block th:insert="layout/script :: app">
+
+</th:block>
+</body>
+</html>

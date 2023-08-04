@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <title>Home</title>
+  <th:block th:insert="layout/head :: meta"/>
+  <th:block th:insert="layout/head :: app-css"/>
+</head>
+<body>
+
+
+<!-- Begin page -->
+<div id="wrapper">
+
+
+  <!-- Topbar Start -->
+  <th:block th:insert="layout/navbar-custom">
+
+  </th:block>
+  <!-- end Topbar --> <!-- ========== Left Sidebar Start ========== -->
+  <th:block th:insert="layout/left-side-menu">
+
+  </th:block>
+  <!-- Start Page Content here -->
+  <!-- ============================================================== -->
+
+  <div class="content-page">
+    <!-- start  -->
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="mt-5">
+          <h4 class="header-title mb-3">Form Validation - Basic Form</h4>
+          <p class="sub-header">
+            Parsley is a javascript form validation library. It helps you provide your users with feedback on their form submission before sending it to your server.
+          </p>
+
+          <div class="">
+            <form action="#" class="form-validation">
+              <div class="form-group">
+                <label for="userName">User Name<span class="text-danger">*</span></label>
+                <input type="text" name="nick" parsley-trigger="change" required="" placeholder="Enter user name" class="form-control" id="userName">
+              </div>
+              <div class="form-group">
+                <label for="emailAddress">Email address<span class="text-danger">*</span></label>
+                <input type="email" name="email" parsley-trigger="change" required="" placeholder="Enter email" class="form-control" id="emailAddress">
+              </div>
+              <div class="form-group">
+                <label for="pass1">Password<span class="text-danger">*</span></label>
+                <input id="pass1" type="password" placeholder="Password" required="" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="passWord2">Confirm Password <span class="text-danger">*</span></label>
+                <input data-parsley-equalto="#pass1" type="password" required="" placeholder="Password" class="form-control" id="passWord2">
+              </div>
+              <div class="form-group">
+                <div class="checkbox checkbox-primary">
+                  <input id="remember-1" type="checkbox">
+                  <label for="remember-1"> Remember me </label>
+                </div>
+              </div>
+
+              <div class="form-group text-right mb-0">
+                <button class="btn btn-primary waves-effect waves-light mr-1" type="submit">
+                  Submit
+                </button>
+                <button type="reset" class="btn btn-danger waves-effect">
+                  Cancel
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+     </div>
+    <!-- end row -->
+    <th:block th:insert="layout/footer">
+
+    </th:block>
+    <!-- end Footer -->
+  </div>
+  <!-- END content-page -->
+</div>
+<th:block th:insert="layout/script :: vendor">
+
+</th:block>
+<!-- D3 chart (required) in ricksaw charts (v3.5.17)-->
+<script src="assets\libs\morris-js\morris.min.js"></script>
+<script src="assets\libs\raphael\raphael.min.js"></script>
+
+<script src="assets\js\pages\dashboard.init.js"></script>
+
+<!-- App js -->
+<th:block th:insert="layout/script :: app">
+
+</th:block>
+</body>
+</html>

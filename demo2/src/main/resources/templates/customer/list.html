@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <title>Home</title>
+    <th:block th:insert="layout/head :: meta"/>
+    <th:block th:insert="layout/head :: app-css"/>
+</head>
+<body>
+<div id="wrapper">
+
+    <!-- Topbar Start -->
+    <th:block th:insert="layout/navbar-custom">
+
+    </th:block>
+    <!-- end Topbar --> <!-- ========== Left Sidebar Start ========== -->
+    <th:block th:insert="layout/left-side-menu">
+
+    </th:block>
+
+    <div class="content-page">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="mt-5">
+                    <h5 class="font-14">Inverse Table</h5>
+                    <p class="sub-header">
+                        You can also invert the colors—with light text on dark backgrounds—with <code
+                            class="highlighter-rouge">.table-dark</code>.
+                    </p>
+
+                    <div class="table-responsive">
+                        <table class="table table-dark">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                                <td>@mdo</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <th:block th:insert="layout/footer">
+
+        </th:block>
+    </div>
+
+</div>
+<th:block th:insert="layout/script :: vendor">
+
+</th:block>
+<!-- D3 chart (required) in ricksaw charts (v3.5.17)-->
+<script src="\assets\libs\morris-js\morris.min.js"></script>
+<script src="\assets\libs\raphael\raphael.min.js"></script>
+
+<script src="\assets\js\pages\dashboard.init.js"></script>
+
+<!-- App js -->
+<th:block th:insert="layout/script :: app">
+
+</th:block>
+</body>
+</html>
