@@ -1,4 +1,3 @@
-
 const API_QUIZ = 'http://localhost:8080/api/questions'
 let questions;
 let page = 0
@@ -77,20 +76,20 @@ const renderQuiz = () => {
     }).done(data => {
         let ques = '';
         const questionsAll = data.content;
-         totalPage = data.totalPages;
+        totalPage = data.totalPages;
 
-            questionsAll.forEach((question, index) => {
-                let ans = '';
-                    ques += `
+        questionsAll.forEach((question, index) => {
+            let ans = '';
+            ques += `
                     <div class="form-check">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 ${question.content}
                             </label>
                         </div>
                     `;
-                question.answers.forEach(answer => {
-                    if (question.type === 'single'|| question.type === 'true/false') {
-                        ans += `
+            question.answers.forEach(answer => {
+                if (question.type === 'single' || question.type === 'true/false') {
+                    ans += `
                         <div class="form-check">
                             <input class="form-check-input" value="${answer.title}" type="radio" name="ques-${question.id}" id="answer-${answer.id}">
                             <label class="form-check-label" for="flexRadioDefault1">
@@ -98,8 +97,8 @@ const renderQuiz = () => {
                             </label>
                         </div>
                     `;
-                    } else {
-                        ans += `
+                } else {
+                    ans += `
                         <div class="form-check">
                             <input class="form-check-input" value="${answer.title}" type="checkbox" name="ques-${question.id}" id="answer-${answer.id}">
                             <label class="form-check-label" for="flexRadioDefault1">
@@ -107,15 +106,12 @@ const renderQuiz = () => {
                             </label>
                         </div>
                     `;
-                    }
-                });
-
-
-
-
-
-                 ques += ans;
+                }
             });
+
+
+            ques += ans;
+        });
         ofOnSubmitEnd();
         body.innerHTML = ques;
         renderPagination();
@@ -127,38 +123,71 @@ const renderQuiz = () => {
 renderQuiz();
 
 function submit() {
-    if (!questions) {
-        console.error("Biến 'questions' chưa được khởi tạo hoặc có giá trị undefined.");
-        return;
-    }
-
     let values = [];
     let isFull = true;
-
     for (let i = 0; i < questions.length; i++) {
-        let inputElements = document.querySelectorAll(`input[name="ques-${i + 1}"]:checked`);
-
-        if (inputElements.length === 0) {
+        let inputName = "ques- " + questions[i].id;
+        let inputElement = document.querySelectorAll('input[name="' + inputName + '"]:checked');
+        if (inputElement <= 0) {
             isFull = false;
             break;
         } else {
-            let answerObject = {};
-            let selectedAnswers = [];
-
-            inputElements.forEach(inputElement => {
-                selectedAnswers.push(inputElement.value);
-            });
-
-            answerObject.answer = selectedAnswers;
-            answerObject.type = inputElements[0].type === 'radio' ? 'radio' : 'checkbox';
-            values.push(answerObject);
+            let answerInput = [];
+            let checkAnswer = [];
+            if (inputElement[0].type === "single" || inputElement[0].type === "true/false") {
+                valueInput = inputElement[0].value;
+                answerInput.content = valueInput;
+                answerInput.type = "radio";
+                values.push(answerInput);
+            } else {
+                inputElement.forEach(function (checkbox) {
+                    checkAnswer.push(checkbox.value);
+                });
+                answerInput.content = checkAnswer;
+                answerInput.type = "checkbox"
+                values.push(answerInput);
+            }
         }
+
     }
 
     if (!isFull) {
-        alert("Vui lòng trả lời hết các câu hỏi.");
+        swal.fire({
+            icon: 'warning',
+            title: 'Cảnh Báo',
+            text: 'Bạn phải chọn hết các câu trả lời !!!'
+        });
     } else {
-        alert(`Bạn đã đạt được ${checkAnswer(values)} điểm / ${questions.length} điểm.`);
+        if (checkAnswer(values) < 5) {
+            swal.fire({
+                icon: 'error',
+                title: 'Chia Buồn',
+                text: "Bạn được " + checkAnswer(values) + "/" + questions.length + " điểm. Chúc bạn may mắn lần sau !!!"
+            }).then(function () {
+                window.location.href = '/home';
+            });
+        } else swal.fire({
+            icon: 'success',
+            title: 'Chúc Mừng',
+            text: "Chúc mừng bạn đã được " + checkAnswer(values) + "/" + questions.length + " điểm !!!"
+        }).then(function () {
+            window.location.href = '/home';
+        });
+    }
+    let data = {
+        score: checkAnswer(values),
+        quiz_id: userQuizs[0].id
+    };
+    for (let i = 0; i < questions.length; i++) {
+        let inputCheck = document.getElementsByName(`ques-${questions[i].id}`);
+        let chooseElement = document.getElementById(`choose-${i}`);
+        let isCheck = false;
+        for (let j = 0; j < inputCheck.length; j++) {
+            if (inputCheck[j].checked){
+                isCheck = true;
+                break;
+            }
+        }
     }
 }
 
@@ -172,7 +201,7 @@ function randomQuestionAndAnswer(array) {
 }
 
 
-function checkAnswer(value){
+function checkAnswer(value) {
     let count = 0;
     let check = false;
     let score = 0;
@@ -185,20 +214,21 @@ function checkAnswer(value){
             }
         } else if (value[i].type === "checkbox") {
             for (let j = 0; j < questions[i].answers.length; j++) {
-                for (let k = 0; k <questions[i].answers.length ; k++) {
-                    if (questions[i].answers[j].title === value[i].answer[k] && questions[i].answers[j].status === false){
+                for (let k = 0; k < questions[i].answers.length; k++) {
+                    if (questions[i].answers[j].title === value[i].answer[k] && questions[i].answers[j].status === false) {
                         count++;
                     }
                 }
             }
-            if(count === 0){
-                score ++ ;
+            if (count === 0) {
+                score++;
             }
             count = 0;
         }
     }
     return score;
 }
+
 const renderPagination = () => {
     const pagination = $('#pagination');
     pagination.empty();
@@ -215,28 +245,28 @@ const renderPagination = () => {
 
 renderQuiz();
 const onPageChange = (pageChange) => {
-    if(pageChange < 1 || pageChange > totalPage || pageChange === page+1){
+    if (pageChange < 1 || pageChange > totalPage || pageChange === page + 1) {
         return;
     }
     page = pageChange - 1;
     renderQuiz();
     ofOnSubmitEnd();
 }
-function ofOnSubmitEnd(){
-    if (page === totalPage -1){
+
+function ofOnSubmitEnd() {
+    if (page === totalPage - 1) {
         document.getElementById("sub").style.display = 'block';
-    }
-    else {
+    } else {
         document.getElementById("sub").style.display = 'none';
     }
 }
 
 
-function onChoose(index){
+function onChoose(index) {
     const inputCheck = document.getElementsByName(`quet-${questions[index].id}`);
     let hasChecked = false;
     for (let i = 0; i < inputCheck.length; i++) {
-        if(inputCheck[i].checked){
+        if (inputCheck[i].checked) {
             hasChecked = true;
             break; // Nếu đã tìm thấy ít nhất một lựa chọn được chọn, thoát vòng lặp
         }
@@ -249,15 +279,16 @@ function onChoose(index){
         numberButton.style.background = 'none';
     }
 }
+
 // function choose(index){
 //     document.getElementById("question-"+index).style.display = "block";
 //     console.log(index)
 // }
-function choose(index){
+function choose(index) {
     const summitCoure = document.getElementById("summit-coure");
-    if (index === questions.length - 1){
+    if (index === questions.length - 1) {
         summitCoure.style.display = "flex";
-    }else {
+    } else {
         summitCoure.style.display = "none";
     }
     // Ẩn tất cả các câu hỏi
