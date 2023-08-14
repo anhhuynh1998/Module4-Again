@@ -1,6 +1,5 @@
 package com.example.quiz.controller;
 
-import com.example.quiz.Service.Quiz.QuizService;
 import com.example.quiz.repository.QuizRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

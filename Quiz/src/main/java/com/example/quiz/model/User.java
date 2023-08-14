@@ -1,6 +1,7 @@
 package com.example.quiz.model;
 
 
+import com.example.quiz.model.eNum.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,9 +19,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
+    @Column(unique = true)
     private String username;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String password;
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

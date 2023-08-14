@@ -1,4 +1,4 @@
-package com.example.quiz.Service.Answer;
+package com.example.quiz.service.Answer;
 
 import com.example.quiz.model.Answer;
 import com.example.quiz.repository.AnswerRepository;
